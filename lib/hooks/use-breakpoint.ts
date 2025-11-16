@@ -6,13 +6,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { tokens } from '@/lib/design-tokens'
 
 const BREAKPOINTS = {
-  sm: 640,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
-  '2xl': 1536,
+  sm: parseInt(tokens.breakpoints.sm),
+  md: parseInt(tokens.breakpoints.md),
+  lg: parseInt(tokens.breakpoints.lg),
+  xl: parseInt(tokens.breakpoints.xl),
+  '2xl': parseInt(tokens.breakpoints['2xl']),
 } as const
 
 type Breakpoint = keyof typeof BREAKPOINTS

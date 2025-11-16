@@ -1,0 +1,283 @@
+ALPHA GRIT E-COMMERCE PLATFORM - COMPREHENSIVE CODEBASE ANALYSIS
+================================================================
+
+GENERATED DOCUMENTATION (3 Files):
+  1. CODEBASE_MAP.md (31 KB) - Complete technical reference
+  2. USER_FLOWS_TEST_PLAN.md (13 KB) - Testing checklist & implementation order
+  3. README.md (9.5 KB) - Original project documentation
+
+QUICK SNAPSHOT:
+===============
+
+Project Status:
+  - Framework: Next.js 14.2 + TypeScript 5 + Tailwind CSS 3.4
+  - Backend: Supabase (PostgreSQL) with Row Level Security
+  - Auth: Supabase Auth (Email + Google OAuth)
+  - Database: 12 tables with 23 indexes, all migrations ready
+  - Design System: 100+ design tokens, zero hardcoding (mostly)
+  - State Management: Server Components (Next.js 14 best practice)
+
+Completion Status:
+  DONE:     7 pages (Auth + Store Homepage + Account Dashboard)
+  PARTIAL:  Design system complete, responsive working
+  TODO:     18+ pages (Products, Checkout, Admin Panel, Blog)
+  TODO:     8+ API endpoints (Stripe, Orders, Downloads, etc.)
+
+ARCHITECTURE HIGHLIGHTS:
+=======================
+
+1. DESIGN SYSTEM (Atomized, CVA-based)
+   - Colors: Primary (orange), Accent (red), Neutral (gray scale)
+   - Spacing: 12 scales (xs-5xl, 4px-128px)
+   - Typography: 7 font sizes + 6 weights
+   - Layout: Container, Stack, Grid, Flex, Section (zero hardcoding)
+   - Components: Button, Card, Input, Label (shadcn/ui)
+   - Responsive: Mobile-first, 5 breakpoints (sm-2xl)
+
+2. DATABASE SCHEMA (Production-ready)
+   Tables:
+   - profiles (user data, role-based access)
+   - products (unified catalog: ebooks, physical, subscriptions)
+   - orders & order_items (purchase tracking)
+   - download_links (7-day expiry, 5-download limit)
+   - reviews (admin-managed)
+   - blog_posts, faqs (content management)
+   - site_config (admin-editable settings)
+   - feature_flags (enable/disable features)
+   - cart_items (shopping cart)
+   - page_views (analytics)
+
+3. AUTHENTICATION (Secure, Multi-Provider)
+   - Email/Password signup & signin
+   - Google OAuth integration
+   - Session management (cookies + middleware)
+   - Role-based access control (customer | admin)
+   - Protected routes via middleware
+   - Row-level security policies on all tables
+
+4. STATE MANAGEMENT (Server-First)
+   - Next.js 14 Server Components (default)
+   - Server Actions for mutations
+   - Minimal client-side state (theme, notifications, responsive)
+   - No Redux/Zustand/Context except where needed
+   - Cookie-based session persistence
+
+COMPLETE PAGE MAP:
+==================
+
+WORKING (7 pages):
+  /                    - Root redirect
+  /store              - Store homepage (hero + CTA)
+  /auth/signin        - Email/password + Google OAuth signin
+  /auth/signup        - Email/password + Google OAuth signup
+  /auth/callback      - OAuth callback handler
+  /account            - User dashboard with links
+  (store layout)      - Header + Footer with navigation
+
+PLANNED (18+ pages):
+  Products:           /products, /products/[slug]
+  Cart/Checkout:      /cart, /checkout, /checkout/success
+  Account:            /account/orders, /account/ebooks, /account/settings
+  Admin:              /admin, /admin/products, /admin/orders, /admin/customers,
+                      /admin/blog, /admin/settings
+  Content:            /blog, /blog/[slug], /about, /contact
+  Legal:              /legal/terms, /legal/privacy, /legal/refund
+  Auth:               /auth/forgot-password
+
+API ROUTES (1 working, 8+ planned):
+  DONE:    GET /auth/callback           - OAuth callback
+  TODO:    POST /api/webhooks/stripe    - Stripe webhook handler
+  TODO:    POST /api/orders             - Create order
+  TODO:    POST /api/checkout/session   - Stripe checkout
+  TODO:    GET /api/downloads/[id]      - Secure downloads
+  TODO:    POST /api/refunds            - Refund requests
+  TODO:    GET /api/products            - Product listing
+  TODO:    POST /api/cart               - Cart management
+
+COMPONENT INVENTORY:
+====================
+
+UI COMPONENTS (15+):
+  Layout Primitives:    Container, Stack, Inline, Grid, Flex, Section
+  Typography:          Heading, Text, Display (all with variants)
+  Spacing:             Spacer, Divider
+  Forms:               Input, Label
+  General:             Button, Card
+  Responsive:          DesktopOnly, MobileOnly
+  Providers:           ThemeProvider (dark/light mode)
+
+Store Components:
+  Header              - Navigation, logo, cart button, account button
+  Footer              - Organized links (products, company, legal, support)
+
+HARDCODED VALUES FOUND (7 - NEED FIXING):
+==========================================
+
+CRITICAL (High Priority):
+1. Toast config colors (app/layout.tsx:70-86)
+   - #333 background → use design token
+   - #f97316 primary icon → use token
+   - #ef4444 error icon → use token
+
+2. Breakpoint values (lib/hooks/use-breakpoint.ts:10-16)
+   - 640, 768, 1024, 1280, 1536 → import from design tokens
+
+3. Button ripple effect (app/globals.css:141)
+   - rgba(255,255,255,0.3) white → use CSS variable
+
+MEDIUM (Good to Fix):
+4. Navigation items (components/store/header.tsx:14-17)
+   → Move to config/navigation.ts
+
+5. Footer sections (components/store/footer.tsx:17-48)
+   → Consolidate in config/navigation.ts
+
+6. Contact info (lib/constants.ts:8-12)
+   → Fetch from site_config table
+
+7. Gradient classes (components/ui/typography.tsx:36-41)
+   → Already in Tailwind (acceptable)
+
+WHAT NEEDS TO BE BUILT (Priority Order):
+=========================================
+
+PHASE 1: CORE STORE (Week 1-2)
+  1. Product listing page with filtering/sorting
+  2. Product detail page with reviews carousel
+  3. Add to cart functionality
+  4. Shopping cart view with quantity adjustment
+  5. Checkout form with currency selection (BRL/USD)
+
+PHASE 2: PAYMENT SYSTEM (Week 2-3)
+  1. Stripe checkout session creation
+  2. Stripe webhook handler (/api/webhooks/stripe)
+  3. Order creation on payment success
+  4. Payment status tracking
+  5. Order confirmation email (Resend + React Email)
+
+PHASE 3: DOWNLOAD SYSTEM (Week 3)
+  1. Create download links on purchase
+  2. Secure download endpoint with signed URLs
+  3. Download count tracking (max 5)
+  4. Link expiry enforcement (7 days)
+  5. IP address tracking
+
+PHASE 4: USER ACCOUNT PAGES (Week 4)
+  1. Order history page
+  2. E-books library with download buttons
+  3. Account settings (profile, password, delete)
+  4. Password reset flow
+
+PHASE 5: ADMIN PANEL (Week 5-6)
+  1. Admin dashboard with metrics
+  2. Products CRUD (create, edit, delete, file upload)
+  3. Orders management (view, update status, refunds)
+  4. Customers list and management
+  5. Blog CMS (create, edit, publish)
+  6. Site settings editor (pull from site_config table)
+  7. Feature flags toggle UI
+
+PHASE 6: CONTENT & FEATURES (Week 6-7)
+  1. Blog listing and detail pages
+  2. Legal pages (Terms, Privacy, Refund Policy)
+  3. About and Contact pages
+  4. FAQ section with accordion
+  5. Product reviews carousel
+
+PHASE 7: POLISH (Week 7)
+  1. Eliminate 7 hardcoded values
+  2. Complete testing suite
+  3. Performance optimization
+  4. Accessibility audit
+  5. SEO setup (meta tags, JSON-LD, sitemap)
+
+TESTING CHECKLIST:
+==================
+
+AUTHENTICATION:
+  [ ] Email/password signup
+  [ ] Email/password signin
+  [ ] Google OAuth signup/signin
+  [ ] Session persistence across page reloads
+  [ ] Logout functionality
+  [ ] Redirect to signin for protected routes
+  [ ] Redirect non-admin from /admin
+
+RESPONSIVE:
+  [ ] Mobile (320px) - vertical stack, readable text
+  [ ] Tablet (768px) - 2-column layouts
+  [ ] Desktop (1024px+) - full layouts
+  [ ] Dark mode persistence
+  [ ] All breakpoints tested
+
+DESIGN SYSTEM:
+  [ ] All color tokens used (no hardcoding)
+  [ ] All spacing tokens used
+  [ ] Typography responsive
+  [ ] Button variants working
+  [ ] Card layouts correct
+  [ ] Responsive components responsive
+
+TECH STACK SUMMARY:
+===================
+
+Frontend:
+  - Next.js 14.2 (App Router, Server Actions)
+  - React 18.3 (Server Components)
+  - TypeScript 5
+  - Tailwind CSS 3.4
+  - Class Variance Authority (CVA)
+  - Lucide React (icons)
+  - Next Themes (dark mode)
+
+Backend:
+  - Supabase (PostgreSQL)
+  - Row Level Security (RLS)
+  - Supabase Auth
+  - Database migrations
+  - Server-side functions
+
+Third-Party Services:
+  - Stripe (payments, primary)
+  - Mercado Pago (prepared, disabled)
+  - Resend (emails)
+  - React Email (email templates)
+
+Development:
+  - TypeScript for type safety
+  - ESLint for code quality
+  - Tailwind CSS for styling
+  - Git for version control
+
+KEY STATS:
+==========
+  - 7 implemented pages
+  - 18+ planned pages
+  - 12 database tables
+  - 23 database indexes
+  - 100+ design tokens
+  - 15+ UI components
+  - 1 working API route
+  - 8+ planned API routes
+  - 7 hardcoded values to fix
+  - 8 feature flags ready in DB
+  - 5 responsive breakpoints
+  - 2 auth providers
+  - 2 payment providers (1 active)
+
+NEXT STEPS:
+===========
+1. Review CODEBASE_MAP.md for detailed technical reference
+2. Follow USER_FLOWS_TEST_PLAN.md for implementation order
+3. Fix 7 hardcoded values (optional but recommended)
+4. Build PHASE 1: Core Store Functionality first
+5. Then PHASE 2: Payment Integration
+6. Test each phase with provided checklists
+
+FILES CREATED:
+==============
+  - /alphagrit/CODEBASE_MAP.md (31 KB) - Full technical reference
+  - /alphagrit/USER_FLOWS_TEST_PLAN.md (13 KB) - Testing & implementation guide
+  - /alphagrit/README.md (original)
+
+All documentation is ready for systematic testing and development!

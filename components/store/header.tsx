@@ -10,11 +10,7 @@ import { MobileOnly, DesktopOnly } from '@/components/ui/responsive'
 import { Text } from '@/components/ui/typography'
 import { cn } from '@/lib/utils'
 import { ROUTES } from '@/lib/constants'
-
-const NAV_ITEMS = [
-  { label: 'Products', href: ROUTES.STORE },
-  { label: 'Blog', href: ROUTES.BLOG },
-] as const
+import { storeNav } from '@/config/navigation'
 
 export function Header() {
   const pathname = usePathname()
@@ -43,7 +39,7 @@ export function Header() {
           <DesktopOnly>
             <nav>
               <Flex gap="lg">
-                {NAV_ITEMS.map((item) => (
+                {storeNav.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
@@ -52,7 +48,7 @@ export function Header() {
                       pathname === item.href ? 'text-primary-500' : 'text-muted-foreground'
                     )}
                   >
-                    {item.label}
+                    {item.title}
                   </Link>
                 ))}
               </Flex>
@@ -88,7 +84,7 @@ export function Header() {
             justify="center"
             className="pb-4 border-t mt-2 pt-2"
           >
-            {NAV_ITEMS.map((item) => (
+            {storeNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -97,7 +93,7 @@ export function Header() {
                   pathname === item.href ? 'text-primary-500' : 'text-muted-foreground'
                 )}
               >
-                {item.label}
+                {item.title}
               </Link>
             ))}
           </Flex>

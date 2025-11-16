@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import { Toaster } from 'react-hot-toast'
+import { toastConfig } from '@/config/toast-config'
 
 export const metadata: Metadata = {
   title: 'Alpha Grit - Transform Your Life Through Discipline',
@@ -66,25 +67,7 @@ export default function RootLayout({
           {children}
           <Toaster
             position="top-right"
-            toastOptions={{
-              className: '',
-              style: {
-                background: '#333',
-                color: '#fff',
-              },
-              success: {
-                iconTheme: {
-                  primary: '#f97316',
-                  secondary: '#fff',
-                },
-              },
-              error: {
-                iconTheme: {
-                  primary: '#ef4444',
-                  secondary: '#fff',
-                },
-              },
-            }}
+            toastOptions={toastConfig}
           />
         </ThemeProvider>
       </body>

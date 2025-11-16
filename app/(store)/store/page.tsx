@@ -7,9 +7,13 @@ import { Display } from '@/components/ui/typography'
 import { Text } from '@/components/ui/typography'
 import { Heading } from '@/components/ui/typography'
 import { Spacer } from '@/components/ui/spacing'
+import { ProductGrid } from '@/components/products/product-grid'
+import { getFeaturedProducts } from '@/lib/actions/products'
 import Link from 'next/link'
 
-export default function StorePage() {
+export default async function StorePage() {
+  const { products, error } = await getFeaturedProducts(6)
+
   return (
     <Container>
       {/* Hero Section */}
@@ -48,14 +52,28 @@ export default function StorePage() {
             Our Products
           </Heading>
 
-          <Stack gap="lg" align="center">
-            <Text size="lg" color="muted" align="center">
-              Products will be loaded here dynamically from Supabase.
-            </Text>
-            <Text size="sm" color="muted" align="center">
-              Admin panel required to add products.
-            </Text>
-          </Stack>
+          {error ? (
+            <Stack gap="lg" align="center">
+              <Text size="lg" color="muted" align="center">
+                Unable to load products. Please try again later.
+              </Text>
+            </Stack>
+          ) : products.length === 0 ? (
+            <Stack gap="lg" align="center">
+              <Text size="lg" color="muted" align="center">
+                No products available yet. Check back soon!
+              </Text>
+              <Text size="sm" color="muted" align="center">
+                Administrators can add products via the admin panel.
+              </Text>
+            </Stack>
+          ) : (
+            <ProductGrid
+              products={products}
+              currency="USD"
+              onAddToCart={undefined}
+            />
+          )}
         </Stack>
       </Section>
 
