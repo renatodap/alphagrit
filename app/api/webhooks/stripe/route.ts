@@ -97,8 +97,8 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     const { error: updateError } = await supabase
       .from('orders')
       .update({
-        status: ORDER_STATUS.PAID,
-        payment_status: 'succeeded',
+        status: ORDER_STATUS.PAID as any,
+        payment_status: 'succeeded' as any,
         payment_intent_id: session.payment_intent as string,
       })
       .eq('id', orderId)
@@ -196,8 +196,8 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
       await supabase
         .from('orders')
         .update({
-          status: ORDER_STATUS.PAID,
-          payment_status: 'succeeded',
+          status: ORDER_STATUS.PAID as any,
+          payment_status: 'succeeded' as any,
         })
         .eq('id', order.id)
 
@@ -230,8 +230,8 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
       await supabase
         .from('orders')
         .update({
-          status: ORDER_STATUS.FAILED,
-          payment_status: 'failed',
+          status: ORDER_STATUS.FAILED as any,
+          payment_status: 'failed' as any,
         })
         .eq('id', order.id)
 
@@ -269,8 +269,8 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
       await supabase
         .from('orders')
         .update({
-          status: ORDER_STATUS.REFUNDED,
-          refund_status: 'processed',
+          status: ORDER_STATUS.REFUNDED as any,
+          refund_status: 'processed' as any,
           refunded_at: refundedAt,
         })
         .eq('id', order.id)
