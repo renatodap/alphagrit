@@ -75,7 +75,7 @@ export default async function AdminBlogPage() {
                 <CardTitle>Total Posts</CardTitle>
               </CardHeader>
               <CardContent>
-                <Text size="3xl" style={{ fontWeight: tokens.fontWeight.bold }}>
+                <Text size="2xl" style={{ fontWeight: tokens.fontWeight.bold }}>
                   {total}
                 </Text>
               </CardContent>
@@ -86,7 +86,7 @@ export default async function AdminBlogPage() {
                 <CardTitle>Published</CardTitle>
               </CardHeader>
               <CardContent>
-                <Text size="3xl" style={{ fontWeight: tokens.fontWeight.bold }}>
+                <Text size="2xl" style={{ fontWeight: tokens.fontWeight.bold }}>
                   {posts.filter((p) => p.status === 'published').length}
                 </Text>
               </CardContent>
@@ -97,7 +97,7 @@ export default async function AdminBlogPage() {
                 <CardTitle>Drafts</CardTitle>
               </CardHeader>
               <CardContent>
-                <Text size="3xl" style={{ fontWeight: tokens.fontWeight.bold }}>
+                <Text size="2xl" style={{ fontWeight: tokens.fontWeight.bold }}>
                   {posts.filter((p) => p.status === 'draft').length}
                 </Text>
               </CardContent>
