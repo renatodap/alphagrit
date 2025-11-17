@@ -8,16 +8,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { generateSlug } from '@/lib/utils/blog'
-import type { BlogPost } from '@/types'
+import type { BlogPost, BlogPostWithAuthor, PaginationParams } from '@/types'
 
 interface BlogPostFilters {
   status?: 'draft' | 'published'
   search?: string
-}
-
-interface PaginationParams {
-  page: number
-  perPage: number
 }
 
 /**
@@ -70,7 +65,7 @@ export async function getBlogPosts(
  */
 export async function getBlogPostBySlug(
   slug: string
-): Promise<{ post: BlogPost | null; error: string | null }> {
+): Promise<{ post: BlogPostWithAuthor | null; error: string | null }> {
   try {
     const supabase = await createClient()
 

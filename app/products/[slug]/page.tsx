@@ -40,7 +40,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const averageRating =
     product.reviews && product.reviews.length > 0
-      ? product.reviews.reduce((acc, r) => acc + r.rating, 0) / product.reviews.length
+      ? product.reviews.reduce((acc, r) => acc + (r.rating ?? 0), 0) / product.reviews.length
       : 0
 
   return (
@@ -97,7 +97,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </Inline>
             )}
 
-            <Text size="4xl" weight="bold" className="text-primary-500">
+            <Text size="2xl" weight="bold" className="text-primary-500">
               {formattedPrice}
             </Text>
 
@@ -160,7 +160,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             <Star
                               key={i}
                               className={`h-4 w-4 ${
-                                i < review.rating
+                                i < (review.rating ?? 0)
                                   ? 'fill-primary-500 text-primary-500'
                                   : 'text-neutral-300'
                               }`}

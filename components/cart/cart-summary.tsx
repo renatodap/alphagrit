@@ -59,7 +59,7 @@ export function CartSummary({ items }: CartSummaryProps) {
           <Link href={ROUTES.CHECKOUT}>Proceed to Checkout</Link>
         </Button>
 
-        <Button size="md" variant="outline" className="w-full" asChild>
+        <Button size="default" variant="outline" className="w-full" asChild>
           <Link href={ROUTES.STORE}>Continue Shopping</Link>
         </Button>
       </Stack>

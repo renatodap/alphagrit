@@ -162,7 +162,7 @@ export async function getProductCategories(): Promise<{ categories: string[]; er
       return { categories: [], error: error.message }
     }
 
-    const categories = [...new Set(data.map((item) => item.category).filter(Boolean))] as string[]
+    const categories = Array.from(new Set(data.map((item) => item.category).filter(Boolean))) as string[]
 
     return { categories, error: null }
   } catch (error) {

@@ -94,8 +94,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     const supabase = createAdminClient()
 
     // Update order status to paid
-    // @ts-ignore - Supabase admin client type inference issue
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
       .from('orders')
       .update({
         status: ORDER_STATUS.PAID,
@@ -112,7 +111,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     console.log('Order status updated to paid:', orderId)
 
     // Get order details with items
-    const { data: order, error: orderError } = await supabase
+    const { data: orderData, error: orderError } = await supabase
       .from('orders')
       .select(`
         *,
@@ -124,10 +123,13 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       .eq('id', orderId)
       .single()
 
-    if (orderError || !order) {
+    if (orderError || !orderData) {
       console.error('Error fetching order:', orderError)
       return
     }
+
+    // Cast to any to work around admin client type inference
+    const order = orderData as any
 
     // Create download links for ebooks
     const ebookItems = order.items.filter(
@@ -186,16 +188,18 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     const supabase = createAdminClient()
 
     // Find order by payment intent ID
-    const { data: order } = await supabase
+    const { data: orderData } = await supabase
       .from('orders')
       .select('id, status')
       .eq('payment_intent_id', paymentIntent.id)
       .single()
 
+    // Cast to any to work around admin client type inference
+    const order = orderData as any
+
     if (order && order.status !== ORDER_STATUS.PAID) {
       // Update order status if not already paid
-      // @ts-ignore - Supabase admin client type inference issue
-      await supabase
+      await (supabase as any)
         .from('orders')
         .update({
           status: ORDER_STATUS.PAID,
@@ -221,16 +225,18 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
     const supabase = createAdminClient()
 
     // Find order by payment intent ID
-    const { data: order } = await supabase
+    const { data: orderData } = await supabase
       .from('orders')
       .select('id, email')
       .eq('payment_intent_id', paymentIntent.id)
       .single()
 
+    // Cast to any to work around admin client type inference
+    const order = orderData as any
+
     if (order) {
       // Update order status to failed
-      // @ts-ignore - Supabase admin client type inference issue
-      await supabase
+      await (supabase as any)
         .from('orders')
         .update({
           status: ORDER_STATUS.FAILED,
@@ -259,18 +265,20 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
     const supabase = createAdminClient()
 
     // Find order by payment intent ID
-    const { data: order } = await supabase
+    const { data: orderData } = await supabase
       .from('orders')
       .select('id, email')
       .eq('payment_intent_id', charge.payment_intent as string)
       .single()
 
+    // Cast to any to work around admin client type inference
+    const order = orderData as any
+
     if (order) {
       // Update order status to refunded
       const refundedAt = new Date().toISOString()
 
-      // @ts-ignore - Supabase admin client type inference issue
-      await supabase
+      await (supabase as any)
         .from('orders')
         .update({
           status: ORDER_STATUS.REFUNDED,

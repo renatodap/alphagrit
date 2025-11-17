@@ -40,6 +40,14 @@ export interface OrderWithItemsAndProducts extends Order {
   items: (OrderItem & { product: Product | null })[]
 }
 
+// Blog
+export interface BlogPostWithAuthor extends BlogPost {
+  author: {
+    full_name: string | null
+    avatar_url: string | null
+  } | null
+}
+
 // Cart
 export interface CartItemWithProduct extends CartItem {
   product: Product
@@ -78,7 +86,7 @@ export interface FormState {
 // Pagination
 export interface PaginationParams {
   page: number
-  limit: number
+  perPage: number
 }
 
 export interface PaginatedResponse<T> {
@@ -97,6 +105,8 @@ export interface ProductFilters {
   type?: string
   category?: string
   search?: string
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
 }
 
 export interface OrderFilters {

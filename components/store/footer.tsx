@@ -38,7 +38,7 @@ export function Footer() {
                       key={link.href}
                       href={link.href}
                       className="text-sm text-muted-foreground hover:text-primary-500 transition-colors"
-                      {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      {...('external' in link && link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     >
                       {link.title}
                     </Link>

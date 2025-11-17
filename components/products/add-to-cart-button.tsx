@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation'
 interface AddToCartButtonProps {
   productId: string
   productName: string
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'default' | 'sm' | 'lg' | 'icon'
   variant?: 'default' | 'outline' | 'ghost'
   className?: string
 }
@@ -24,7 +24,7 @@ interface AddToCartButtonProps {
 export function AddToCartButton({
   productId,
   productName,
-  size = 'md',
+  size = 'default',
   variant = 'default',
   className,
 }: AddToCartButtonProps) {
