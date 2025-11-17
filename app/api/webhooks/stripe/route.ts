@@ -94,7 +94,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     const supabase = createAdminClient()
 
     // Update order status to paid
-    // @ts-expect-error - Supabase type inference issue with admin client
+    // @ts-ignore - Supabase admin client type inference issue
     const { error: updateError } = await supabase
       .from('orders')
       .update({
@@ -194,7 +194,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
 
     if (order && order.status !== ORDER_STATUS.PAID) {
       // Update order status if not already paid
-      // @ts-expect-error - Supabase type inference issue with admin client
+      // @ts-ignore - Supabase admin client type inference issue
       await supabase
         .from('orders')
         .update({
@@ -229,7 +229,7 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
 
     if (order) {
       // Update order status to failed
-      // @ts-expect-error - Supabase type inference issue with admin client
+      // @ts-ignore - Supabase admin client type inference issue
       await supabase
         .from('orders')
         .update({
@@ -269,7 +269,7 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
       // Update order status to refunded
       const refundedAt = new Date().toISOString()
 
-      // @ts-expect-error - Supabase type inference issue with admin client
+      // @ts-ignore - Supabase admin client type inference issue
       await supabase
         .from('orders')
         .update({
