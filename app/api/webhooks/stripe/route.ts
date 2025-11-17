@@ -94,11 +94,12 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     const supabase = createAdminClient()
 
     // Update order status to paid
+    // @ts-expect-error - Supabase type inference issue with admin client
     const { error: updateError } = await supabase
       .from('orders')
       .update({
-        status: ORDER_STATUS.PAID as any,
-        payment_status: 'succeeded' as any,
+        status: ORDER_STATUS.PAID,
+        payment_status: 'succeeded',
         payment_intent_id: session.payment_intent as string,
       })
       .eq('id', orderId)
@@ -193,11 +194,12 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
 
     if (order && order.status !== ORDER_STATUS.PAID) {
       // Update order status if not already paid
+      // @ts-expect-error - Supabase type inference issue with admin client
       await supabase
         .from('orders')
         .update({
-          status: ORDER_STATUS.PAID as any,
-          payment_status: 'succeeded' as any,
+          status: ORDER_STATUS.PAID,
+          payment_status: 'succeeded',
         })
         .eq('id', order.id)
 
@@ -227,11 +229,12 @@ async function handlePaymentIntentFailed(paymentIntent: Stripe.PaymentIntent) {
 
     if (order) {
       // Update order status to failed
+      // @ts-expect-error - Supabase type inference issue with admin client
       await supabase
         .from('orders')
         .update({
-          status: ORDER_STATUS.FAILED as any,
-          payment_status: 'failed' as any,
+          status: ORDER_STATUS.FAILED,
+          payment_status: 'failed',
         })
         .eq('id', order.id)
 
@@ -266,11 +269,12 @@ async function handleChargeRefunded(charge: Stripe.Charge) {
       // Update order status to refunded
       const refundedAt = new Date().toISOString()
 
+      // @ts-expect-error - Supabase type inference issue with admin client
       await supabase
         .from('orders')
         .update({
-          status: ORDER_STATUS.REFUNDED as any,
-          refund_status: 'processed' as any,
+          status: ORDER_STATUS.REFUNDED,
+          refund_status: 'processed',
           refunded_at: refundedAt,
         })
         .eq('id', order.id)
