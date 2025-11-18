@@ -161,6 +161,6 @@ export const TOAST_MESSAGES = {
 export const SEO = {
   DEFAULT_TITLE: 'Alpha Grit - Transform Your Life Through Discipline',
   DEFAULT_DESCRIPTION: 'Science-based transformation system for modern men. Not temporary motivation—total reconstruction.',
-  DEFAULT_KEYWORDS: ['fitness', 'ebook', 'transformation', 'discipline', 'motivation', 'self-improvement', 'mindset'],
+  DEFAULT_KEYWORDS: ['fitness', 'ebook', 'transformation', 'discipline', 'motivation', 'self-improvement', 'mindset'] as string[],
   OG_IMAGE: '/og-image.jpg',
 } as const

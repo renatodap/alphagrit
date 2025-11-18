@@ -1,92 +1,157 @@
+/**
+ * GLOBAL STYLES
+ *
+ * Base styles, CSS custom properties, and utility classes.
+ * All values reference the design system - no hardcoded values.
+ *
+ * @see config/theme.config.ts
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * CSS CUSTOM PROPERTIES (CSS Variables)
+ *
+ * These enable dynamic theming via Tailwind's HSL color system.
+ * Light and dark modes defined here using semantic color tokens.
+ */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 24 95% 53%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 84% 60%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 24 95% 53%;
-    --radius: 0.5rem;
+    /* Backgrounds */
+    --background: 0 0% 100%;        /* Pure white */
+    --foreground: 0 0% 3.9%;        /* Nearly black text */
+
+    /* Components */
+    --card: 0 0% 100%;              /* Card background */
+    --card-foreground: 0 0% 3.9%;   /* Card text */
+    --popover: 0 0% 100%;           /* Popover background */
+    --popover-foreground: 0 0% 3.9%; /* Popover text */
+
+    /* Brand colors (HSL values) */
+    --primary: 24 95% 53%;          /* Orange #f97316 */
+    --primary-foreground: 0 0% 98%; /* White text on orange */
+    --accent: 0 84% 60%;            /* Red #ef4444 */
+    --accent-foreground: 0 0% 9%;   /* Dark text on red */
+
+    /* Neutral colors */
+    --secondary: 0 0% 96.1%;        /* Light gray */
+    --secondary-foreground: 0 0% 9%; /* Dark text */
+    --muted: 0 0% 96.1%;            /* Muted background */
+    --muted-foreground: 0 0% 45.1%; /* Muted text */
+
+    /* Status colors */
+    --destructive: 0 84.2% 60.2%;   /* Error red */
+    --destructive-foreground: 0 0% 98%; /* White text */
+
+    /* UI elements */
+    --border: 0 0% 89.8%;           /* Border color */
+    --input: 0 0% 89.8%;            /* Input borders */
+    --ring: 24 95% 53%;             /* Focus ring (orange) */
+
+    /* Border radius default */
+    --radius: 0.5rem;               /* 8px rounded corners */
   }
 
+  /**
+   * DARK MODE THEME
+   *
+   * Overrides light theme colors when .dark class is applied
+   */
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 24 95% 53%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 84% 60%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 24 95% 53%;
+    /* Backgrounds - inverted for dark mode */
+    --background: 0 0% 3.9%;        /* Nearly black */
+    --foreground: 0 0% 98%;         /* Nearly white text */
+
+    /* Components */
+    --card: 0 0% 3.9%;              /* Dark card background */
+    --card-foreground: 0 0% 98%;    /* Light card text */
+    --popover: 0 0% 3.9%;           /* Dark popover */
+    --popover-foreground: 0 0% 98%; /* Light popover text */
+
+    /* Brand colors stay consistent */
+    --primary: 24 95% 53%;          /* Orange remains same */
+    --primary-foreground: 0 0% 98%; /* White text */
+    --accent: 0 84% 60%;            /* Red remains same */
+    --accent-foreground: 0 0% 98%;  /* White text on red in dark mode */
+
+    /* Neutral colors - darker variants */
+    --secondary: 0 0% 14.9%;        /* Dark gray */
+    --secondary-foreground: 0 0% 98%; /* Light text */
+    --muted: 0 0% 14.9%;            /* Dark muted background */
+    --muted-foreground: 0 0% 63.9%; /* Medium gray text */
+
+    /* Status colors - darker destructive */
+    --destructive: 0 62.8% 30.6%;   /* Darker error red */
+    --destructive-foreground: 0 0% 98%; /* White text */
+
+    /* UI elements - darker */
+    --border: 0 0% 14.9%;           /* Dark border */
+    --input: 0 0% 14.9%;            /* Dark input borders */
+    --ring: 24 95% 53%;             /* Focus ring stays orange */
   }
 }
 
+/**
+ * BASE ELEMENT STYLES
+ *
+ * Default styling for all elements
+ */
 @layer base {
+  /* Apply border color to all elements */
   * {
     @apply border-border;
   }
+
+  /* Body defaults - background and text color from CSS variables */
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    /* Enable font ligatures and contextual alternates for better typography */
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
   }
 }
 
-/* Custom scrollbar */
+/**
+ * CUSTOM SCROLLBAR STYLING
+ *
+ * Branded scrollbars for webkit browsers
+ */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 10px;   /* Vertical scrollbar width */
+  height: 10px;  /* Horizontal scrollbar height */
 }
 
+/* Scrollbar track (background) */
 ::-webkit-scrollbar-track {
   @apply bg-neutral-100 dark:bg-neutral-900;
 }
 
+/* Scrollbar thumb (draggable part) */
 ::-webkit-scrollbar-thumb {
   @apply bg-primary-500 rounded-lg;
 }
 
+/* Scrollbar thumb on hover */
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-primary-600;
 }
 
-/* Smooth transitions */
-* {
-  @apply transition-colors duration-200;
-}
-
-/* Typography */
+/**
+ * TYPOGRAPHY DEFAULTS
+ *
+ * Consistent heading styles throughout the app
+ */
 h1, h2, h3, h4, h5, h6 {
   @apply font-bold tracking-tight;
 }
 
+/* Responsive heading sizes */
 h1 {
   @apply text-4xl md:text-5xl lg:text-6xl;
 }
@@ -103,47 +168,106 @@ h4 {
   @apply text-xl md:text-2xl;
 }
 
-/* Loading spinner */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+h5 {
+  @apply text-lg md:text-xl;
+}
+
+h6 {
+  @apply text-base md:text-lg;
+}
+
+/* Paragraph spacing */
+p {
+  @apply mb-4 last:mb-0;
+}
+
+/**
+ * UTILITY CLASSES
+ *
+ * Reusable effect classes for common patterns
+ */
+@layer utilities {
+  /**
+   * Gradient text effect
+   * Creates a gradient from primary to accent colors
+   */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 via-accent-500 to-primary-600 bg-clip-text text-transparent;
   }
-}
 
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
+  /**
+   * Card hover effect
+   * Lifts card up with shadow on hover
+   */
+  .card-hover {
+    @apply transition-all duration-normal hover:shadow-lg hover:-translate-y-1;
+  }
 
-/* Gradient text */
-.gradient-text {
-  @apply bg-gradient-to-r from-primary-500 via-accent-500 to-primary-600 bg-clip-text text-transparent;
-}
+  /**
+   * Smooth focus outline
+   * Better than default browser focus styles
+   */
+  .focus-visible-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
 
-/* Card hover effect */
-.card-hover {
-  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
-}
+  /**
+   * Button ripple effect
+   * Material Design-style ripple on click
+   */
+  .btn-ripple {
+    @apply relative overflow-hidden;
+  }
 
-/* Button ripple effect */
-.btn-ripple {
-  position: relative;
-  overflow: hidden;
-}
+  .btn-ripple::after {
+    content: "";
+    @apply absolute top-1/2 left-1/2 w-0 h-0 rounded-full;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
 
-.btn-ripple::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
+  .btn-ripple:active::after {
+    @apply w-[300px] h-[300px];
+  }
 
-.btn-ripple:active::after {
-  width: 300px;
-  height: 300px;
+  /**
+   * Skeleton loading animation
+   * For loading states
+   */
+  .skeleton {
+    @apply animate-pulse bg-neutral-200 dark:bg-neutral-800 rounded;
+  }
+
+  /**
+   * Smooth color transitions
+   * Apply to interactive elements
+   */
+  .transition-smooth {
+    @apply transition-colors duration-base;
+  }
+
+  /**
+   * Container utilities
+   * Centered containers with max-width
+   */
+  .container-sm {
+    @apply max-w-screen-sm mx-auto px-4;
+  }
+
+  .container-md {
+    @apply max-w-screen-md mx-auto px-4;
+  }
+
+  .container-lg {
+    @apply max-w-screen-lg mx-auto px-4;
+  }
+
+  .container-xl {
+    @apply max-w-screen-xl mx-auto px-4;
+  }
+
+  .container-2xl {
+    @apply max-w-screen-2xl mx-auto px-4;
+  }
 }

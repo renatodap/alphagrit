@@ -1,4 +1,14 @@
+/**
+ * TAILWIND CSS CONFIGURATION
+ *
+ * Extends Tailwind with our design system tokens.
+ * All values pulled from theme.config.ts - no hardcoded values here.
+ *
+ * @see config/theme.config.ts
+ */
+
 import type { Config } from 'tailwindcss'
+import { theme } from './config/theme.config'
 
 const config: Config = {
   darkMode: ['class'],
@@ -9,34 +19,42 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      /**
+       * COLORS
+       * Pulled from theme.config.ts color system
+       */
       colors: {
+        // CSS variable colors for dynamic theming
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+
+        // Primary brand colors (orange)
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
-          950: '#431407',
+          ...theme.colors.primary,
         },
+
+        // Accent colors (red)
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
-          500: '#ef4444',
-          600: '#dc2626',
-          700: '#b91c1c',
+          ...theme.colors.accent,
         },
+
+        // Neutral grayscale
+        neutral: theme.colors.neutral,
+
+        // Semantic colors
+        success: theme.colors.semantic.success,
+        warning: theme.colors.semantic.warning,
+        error: theme.colors.semantic.error,
+        info: theme.colors.semantic.info,
+
+        // Shadcn-style semantic colors
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
@@ -58,60 +76,11 @@ const config: Config = {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
-      fontFamily: {
-        sans: [
-          'Inter',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'Segoe UI',
-          'Roboto',
-          'Oxygen',
-          'Ubuntu',
-          'Cantarell',
-          'Fira Sans',
-          'Droid Sans',
-          'Helvetica Neue',
-          'sans-serif',
-        ],
-        display: [
-          'Inter',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'Segoe UI',
-          'Roboto',
-          'sans-serif',
-        ],
-        mono: [
-          'SF Mono',
-          'Monaco',
-          'Cascadia Code',
-          'Roboto Mono',
-          'Consolas',
-          'Liberation Mono',
-          'Courier New',
-          'monospace',
-        ],
-      },
-      fontSize: {
-        'xs': ['0.75rem', { lineHeight: '1rem' }],
-        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
-        'base': ['1rem', { lineHeight: '1.5rem' }],
-        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
-        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
-        '2xl': ['1.5rem', { lineHeight: '2rem' }],
-        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
-        '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
-        '5xl': ['3rem', { lineHeight: '1' }],
-        '6xl': ['3.75rem', { lineHeight: '1' }],
-        '7xl': ['4.5rem', { lineHeight: '1' }],
-        '8xl': ['6rem', { lineHeight: '1' }],
-        '9xl': ['8rem', { lineHeight: '1' }],
-      },
+
+      /**
+       * SPACING
+       * Extends Tailwind's default spacing with our custom scale
+       */
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
@@ -119,29 +88,104 @@ const config: Config = {
         '112': '28rem',
         '128': '32rem',
       },
-      maxWidth: {
-        '8xl': '88rem',
-        '9xl': '96rem',
+
+      /**
+       * BORDER RADIUS
+       * Uses CSS variables for dynamic theming
+       */
+      borderRadius: {
+        ...theme.borderRadius,
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
+
+      /**
+       * TYPOGRAPHY
+       * Font families, sizes, weights from theme config
+       */
+      fontFamily: {
+        sans: theme.typography.fontFamily.sans.split(', '),
+        display: theme.typography.fontFamily.display.split(', '),
+        mono: theme.typography.fontFamily.mono.split(', '),
+      },
+      fontSize: {
+        xs: [theme.typography.fontSize.xs.size, { lineHeight: theme.typography.fontSize.xs.lineHeight }],
+        sm: [theme.typography.fontSize.sm.size, { lineHeight: theme.typography.fontSize.sm.lineHeight }],
+        base: [theme.typography.fontSize.base.size, { lineHeight: theme.typography.fontSize.base.lineHeight }],
+        lg: [theme.typography.fontSize.lg.size, { lineHeight: theme.typography.fontSize.lg.lineHeight }],
+        xl: [theme.typography.fontSize.xl.size, { lineHeight: theme.typography.fontSize.xl.lineHeight }],
+        '2xl': [theme.typography.fontSize['2xl'].size, { lineHeight: theme.typography.fontSize['2xl'].lineHeight }],
+        '3xl': [theme.typography.fontSize['3xl'].size, { lineHeight: theme.typography.fontSize['3xl'].lineHeight }],
+        '4xl': [theme.typography.fontSize['4xl'].size, { lineHeight: theme.typography.fontSize['4xl'].lineHeight }],
+        '5xl': [theme.typography.fontSize['5xl'].size, { lineHeight: theme.typography.fontSize['5xl'].lineHeight }],
+        '6xl': [theme.typography.fontSize['6xl'].size, { lineHeight: theme.typography.fontSize['6xl'].lineHeight }],
+        '7xl': [theme.typography.fontSize['7xl'].size, { lineHeight: theme.typography.fontSize['7xl'].lineHeight }],
+        '8xl': [theme.typography.fontSize['8xl'].size, { lineHeight: theme.typography.fontSize['8xl'].lineHeight }],
+        '9xl': [theme.typography.fontSize['9xl'].size, { lineHeight: theme.typography.fontSize['9xl'].lineHeight }],
+      },
+      fontWeight: {
+        light: theme.typography.fontWeight.light,
+        normal: theme.typography.fontWeight.normal,
+        medium: theme.typography.fontWeight.medium,
+        semibold: theme.typography.fontWeight.semibold,
+        bold: theme.typography.fontWeight.bold,
+        extrabold: theme.typography.fontWeight.extrabold,
+        black: theme.typography.fontWeight.black,
+      },
+      lineHeight: theme.typography.lineHeight,
+      letterSpacing: theme.typography.letterSpacing,
+
+      /**
+       * SHADOWS
+       * Box shadow elevation system
+       */
+      boxShadow: theme.shadows,
+
+      /**
+       * ANIMATIONS
+       * Keyframes and animation presets
+       */
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.5s ease-out',
-        'slide-down': 'slideDown 0.5s ease-out',
+        'fade-in': `fadeIn ${theme.animation.duration.slow} ${theme.animation.easing.easeOut}`,
+        'fade-out': `fadeOut ${theme.animation.duration.slow} ${theme.animation.easing.easeOut}`,
+        'slide-up': `slideUp ${theme.animation.duration.normal} ${theme.animation.easing.easeOut}`,
+        'slide-down': `slideDown ${theme.animation.duration.normal} ${theme.animation.easing.easeOut}`,
+        'slide-in-left': `slideInLeft ${theme.animation.duration.normal} ${theme.animation.easing.easeOut}`,
+        'slide-in-right': `slideInRight ${theme.animation.duration.normal} ${theme.animation.easing.easeOut}`,
+        'scale-in': `scaleIn ${theme.animation.duration.fast} ${theme.animation.easing.easeOut}`,
+        'spin': `spin ${theme.animation.duration.slowest} ${theme.animation.easing.linear} infinite`,
+        'pulse': `pulse ${theme.animation.duration.slower} ${theme.animation.easing.easeInOut} infinite`,
       },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        slideDown: {
-          '0%': { transform: 'translateY(-10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
+      keyframes: theme.animation.keyframes,
+
+      /**
+       * CONTAINER MAX WIDTHS
+       */
+      maxWidth: {
+        '8xl': theme.container['2xl'],
+        '9xl': theme.container['3xl'],
       },
+
+      /**
+       * TRANSITIONS
+       * Duration and easing
+       */
+      transitionDuration: {
+        instant: theme.animation.duration.instant,
+        fast: theme.animation.duration.fast,
+        base: theme.animation.duration.base,
+        normal: theme.animation.duration.normal,
+        slow: theme.animation.duration.slow,
+        slower: theme.animation.duration.slower,
+        slowest: theme.animation.duration.slowest,
+      },
+      transitionTimingFunction: theme.animation.easing,
+
+      /**
+       * Z-INDEX
+       */
+      zIndex: theme.zIndex,
     },
   },
   plugins: [require('@tailwindcss/typography')],
